@@ -5,10 +5,10 @@ A nostalgic Plymouth theme that recreates the classic Amiga Workbench 3.1 boot a
 ## Preview
 
 Amiga boot animation (normal version)  
-![preview-normal](https://github.com/user-attachments/assets/your-screenshot-or-gif-here)
+![preview-normal](frames.normal/startup/frame_001.png)
 
 Amiga boot animation (zoomed version)  
-![preview-zoomed](https://github.com/user-attachments/assets/your-screenshot-or-gif-here)
+![preview-zoomed](frames.zoomed/startup/frame_001.png)
 
 ## Features
 
