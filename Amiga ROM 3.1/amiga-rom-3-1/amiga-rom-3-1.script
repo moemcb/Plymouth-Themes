@@ -1,0 +1,70 @@
+# Amiga Boot animation
+anim_sprite = Sprite();
+current_frame = 1;
+frame_count = 153;
+
+#Shutdown sprites
+shutdown_box = Sprite();
+shutdown_image_on = Image("frames/shutdown/blink-on.png");
+shutdown_image_off = Image("frames/shutdown/blink-off.png");
+
+# State
+shutdown_frame = 0;
+scale_factor = Window.GetWidth() / 640.0;  # Scale for 1920x1080 (approx 3x original assumed resolution)
+
+#Boot Animation
+fun animate_callback()
+{
+	current_frame = current_frame + 1;
+	if (current_frame > frame_count)
+		current_frame = 1;
+		frame_num_str = "";
+		
+	if (current_frame < 10)
+		frame_num_str = "00" + current_frame;
+	else if (current_frame < 100)
+		frame_num_str = "0" + current_frame;
+	else
+		frame_num_str = "" + current_frame;
+		frame_name = "frames/startup/frame_" + frame_num_str + ".png";
+		anim_sprite.SetImage(Image(frame_name));
+}
+
+# Shutdown refresh callback - Handle blink animation (called up to 50 times/sec)
+fun refresh_callback()
+{
+	shutdown_frame = shutdown_frame + 1;
+	# Blink the box
+	blink = Math.Int(shutdown_frame / 30) % 2;
+	if (blink == 1)
+		shutdown_box.SetImage(shutdown_image_on);
+	else
+		shutdown_box.SetImage(shutdown_image_off);
+}
+
+
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+# Boot sprite - Centered
+anim_img = Image("frames/startup/frame_001.png");
+anim_sprite.SetX((Window.GetWidth() / 2) - (anim_img.GetWidth() / 2));
+anim_sprite.SetY((Window.GetHeight() / 2) - (anim_img.GetHeight() / 2));
+anim_sprite.SetZ(0);
+anim_sprite.SetImage(anim_img);
+
+#Mode detection
+if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "halt" || Plymouth.GetMode() == "reboot")
+{
+	anim_sprite.SetOpacity(0);
+
+	# Shutdown box is full-screen (1920x1080), position at 0,0
+	shutdown_box.SetImage(shutdown_image_on);
+	shutdown_box.SetPosition(0, 0, 1);  # LOW Z-order so other sprites can be on top
+
+	Plymouth.SetRefreshFunction(refresh_callback);
+}
+else
+{
+	Plymouth.SetRefreshFunction(animate_callback);
+}

@@ -1,0 +1,9 @@
+[Plymouth Theme]
+Name=Amiga Boot Rom Animation
+Description=Amiga 3.1 Boot Rom  Animation.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/amiga-rom-3-1
+ScriptFile=/usr/share/plymouth/themes/amiga-rom-3-1/amiga-rom-3-1.script
+
